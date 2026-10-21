@@ -101,7 +101,7 @@
 <div id="student-screen" class="hidden min-h-screen pt-6 pb-12">
   <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden card relative pb-20">
     
-    <!-- ★ 인쇄 전용 헤더 (화면에서는 안 보이고 인쇄 시 1페이지 상단에만 출력됨) ★ -->
+    <!-- ★ 인쇄 전용 헤더 -->
     <div class="print-header">
       <div class="text-xl font-bold">놀이공원 가속도 비교 탐구 보고서</div>
       <div class="text-lg">학번: <span id="print_sid" class="font-bold"></span> &nbsp;|&nbsp; 이름: <span id="print_sname" class="font-bold"></span></div>
@@ -231,7 +231,7 @@
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqusJj0SXRfT82dW4sfWTnAf8SQft_sxK24RinXAoxVh_XXVkUULCMLRCN-0-tZ8ID/exec";
   let currentUser = {};
 
-function compressImage(file, callback) {
+  function compressImage(file, callback) {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = function(event) {
@@ -309,19 +309,15 @@ function compressImage(file, callback) {
     });
   }
 
-
-
   document.getElementById('q1_file').addEventListener('change', e => compressImage(e.target.files[0], b64 => {
     const preview = document.getElementById('q1_preview');
     preview.src = b64;
-    preview.dataset.isNew = 'true';
     preview.classList.remove('hidden');
   }));
 
   document.getElementById('q3_file').addEventListener('change', e => compressImage(e.target.files[0], b64 => {
     const preview = document.getElementById('q3_preview');
     preview.src = b64;
-    preview.dataset.isNew = 'true';
     preview.classList.remove('hidden');
   }));
 
@@ -384,9 +380,6 @@ function compressImage(file, callback) {
     showLoading(false);
   }
 
-  /**
-   * Code.gs의 processClientRequest 또는 doPost와 안전하게 통신합니다.
-   */
   function fetchGAS(payload) {
     return new Promise((resolve, reject) => {
       if (typeof google !== 'undefined' && google.script && google.script.run) {
@@ -423,7 +416,6 @@ function compressImage(file, callback) {
         } else {
           currentUser = { studentId: String(res.studentId).trim(), name: res.name };
           
-          // 학생 모드로 UI 상태 복구 및 입력창 활성화
           document.querySelectorAll('.student-only').forEach(el => el.classList.remove('hidden'));
           document.getElementById('printBtn').classList.add('hidden');
           document.getElementById('backBtn').classList.add('hidden');
@@ -432,7 +424,6 @@ function compressImage(file, callback) {
             el.disabled = false;
           });
 
-          // 화면 및 인쇄용 헤더에 학번/이름 설정
           document.getElementById('display_sid').innerText = currentUser.studentId;
           document.getElementById('display_sname').innerText = currentUser.name;
           document.getElementById('print_sid').innerText = currentUser.studentId;
@@ -456,39 +447,6 @@ function compressImage(file, callback) {
     showLoading(false);
   }
 
-          // 학생 모드로 UI 상태 복구 및 입력창 활성화
-          document.querySelectorAll('.student-only').forEach(el => el.classList.remove('hidden'));
-          document.getElementById('printBtn').classList.add('hidden');
-          document.getElementById('backBtn').classList.add('hidden');
-          document.querySelectorAll('textarea').forEach(el => {
-            el.readOnly = false;
-            el.disabled = false;
-          });
-
-          // 화면 및 인쇄용 헤더에 학번/이름 설정
-          document.getElementById('display_sid').innerText = currentUser.studentId;
-          document.getElementById('display_sname').innerText = currentUser.name;
-          document.getElementById('print_sid').innerText = currentUser.studentId;
-          document.getElementById('print_sname').innerText = currentUser.name;
-          
-          document.getElementById('login-screen').classList.add('hidden');
-          document.getElementById('student-screen').classList.remove('hidden');
-          switchTab('tab1');
-          
-          if (pw === '1234') openPwModal(true);
-          
-          const reportData = await fetchGAS({ action: 'getStudentReport', studentId: currentUser.studentId });
-          populateForm(reportData, false);
-        }
-      } else {
-        alert((res && res.message) || "로그인에 실패했습니다.");
-      }
-    } catch (e) { 
-      alert("서버와 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."); 
-    }
-    showLoading(false);
-  }
-
   function clearForm() {
     const p1 = document.getElementById('q1_preview');
     const p3 = document.getElementById('q3_preview');
@@ -496,8 +454,6 @@ function compressImage(file, callback) {
     p3.classList.add('hidden');
     p1.removeAttribute('src');
     p3.removeAttribute('src');
-    p1.dataset.isNew = 'false';
-    p3.dataset.isNew = 'false';
 
     document.getElementById('q1_file').value = '';
     document.getElementById('q3_file').value = '';
@@ -520,15 +476,12 @@ function compressImage(file, callback) {
       const p1 = document.getElementById('q1_preview');
       const p3 = document.getElementById('q3_preview');
 
-      // 기존에 저장된 사진 데이터는 변형하지 않고 화면에 그대로 표시만 합니다.
       if (data.q1Img) { 
         p1.src = data.q1Img; 
-        p1.dataset.isNew = 'false';
         p1.classList.remove('hidden');
       }
       if (data.q3Img) { 
         p3.src = data.q3Img; 
-        p3.dataset.isNew = 'false';
         p3.classList.remove('hidden');
       }
 
@@ -549,16 +502,14 @@ function compressImage(file, callback) {
   }
 
   async function saveData() {
-    if (!currentUser || !currentUser.studentId) {
-      return;
-    }
+    if (!currentUser || !currentUser.studentId) return;
 
     const p1 = document.getElementById('q1_preview');
     const p3 = document.getElementById('q3_preview');
 
-    // 화면에 사진(src)이 있으면 새 사진이든 기존 사진이든 무조건 데이터를 전송하여 덮어씌워짐을 방지합니다.
-    let q1ImgVal = p1.getAttribute('src') || '';
-    let q3ImgVal = p3.getAttribute('src') || '';
+    // ★ 가장 확실한 방법: DOM에 등록된 실제 src 값을 추출하고 안전한 데이터 URL인지 2차 확인합니다.
+    let q1ImgVal = p1.src && p1.src.startsWith('data:image') ? p1.src : '';
+    let q3ImgVal = p3.src && p3.src.startsWith('data:image') ? p3.src : '';
 
     if (q1ImgVal.length > 45000) {
       q1ImgVal = await new Promise(r => shrinkDataUrl(q1ImgVal, 40000, r));
@@ -570,11 +521,11 @@ function compressImage(file, callback) {
     const data = {
       studentId: String(currentUser.studentId).trim(),
       name: currentUser.name,
-      q1Img: q1ImgVal.length <= 48000 ? q1ImgVal : '',
+      q1Img: q1ImgVal.length <= 49000 ? q1ImgVal : '',
       q1Text: document.getElementById('q1_text').value.substring(0, 48000),
       q2_1_Text: document.getElementById('q2_1_text').value.substring(0, 48000),
       q2_2_Text: document.getElementById('q2_2_text').value.substring(0, 48000),
-      q3Img: q3ImgVal.length <= 48000 ? q3ImgVal : '',
+      q3Img: q3ImgVal.length <= 49000 ? q3ImgVal : '',
       q3Text: document.getElementById('q3_text').value.substring(0, 48000),
       q4_1_Text: document.getElementById('q4_1_text').value.substring(0, 48000),
       q4_2_Text: document.getElementById('q4_2_text').value.substring(0, 48000)
@@ -588,7 +539,6 @@ function compressImage(file, callback) {
     try {
       let res = await fetchGAS({ action: 'saveStudentReport', data: data });
 
-      // 만약 서버에서 50,000자 초과 오류가 반환되더라도 이를 무시하고 텍스트 데이터만 즉시 재저장합니다.
       if (res && !res.success && res.message && (res.message.includes('50000') || res.message.includes('50,000') || res.message.includes('maximum'))) {
         data.q1Img = '';
         data.q3Img = '';
@@ -596,8 +546,6 @@ function compressImage(file, callback) {
       }
 
       if (res && res.success) {
-        p1.dataset.isNew = 'false';
-        p3.dataset.isNew = 'false';
         if (res.updatedAt) {
           const savedInfo = document.getElementById('last_saved_info');
           savedInfo.innerText = '최근 저장 일시: ' + res.updatedAt + ' (내용을 수정한 뒤 다시 제출하면 업데이트됩니다)';
@@ -653,7 +601,7 @@ function compressImage(file, callback) {
       if (tdId || tdName) {
         let txt = (tdId.innerText || tdId.textContent) + " " + (tdName.innerText || tdName.textContent);
         trs[i].style.display = txt.toUpperCase().indexOf(filter) > -1 ? "" : "none";
-      }       
+      }        
     }
   }
 
