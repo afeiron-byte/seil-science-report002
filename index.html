@@ -20,20 +20,15 @@
     /* ★ 강력한 인쇄 전용 제어 CSS ★ */
     @media print {
       body { background: white !important; margin: 0; padding: 0; }
-      
-      /* 보고서 영역(#student-screen)만 출력하고, 로그인창/모달/로딩/플로팅로고 등 모든 요소 원천 차단 */
       body > *:not(#student-screen) { display: none !important; }
       #student-screen { display: block !important; padding: 0 !important; min-height: auto !important; }
-      
       .no-print, script, style { display: none !important; }
-      
       .card { box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; }
       .tab-content { display: block !important; margin-bottom: 20px; }
       textarea { height: auto !important; border: 1px solid #555 !important; padding: 12px !important; font-size: 10.5pt !important; background: transparent !important; }
       .question-block { background-color: transparent !important; border: none !important; padding: 0 !important; margin-bottom: 25px !important; page-break-inside: avoid; }
       .question-title { color: black !important; font-size: 11pt !important; }
       
-      /* 인쇄 시 상단에 학번/이름 헤더 표시 */
       .print-header { 
         display: flex !important; 
         justify-content: space-between; 
@@ -51,7 +46,6 @@
   <div class="text-white text-xl font-bold">처리 중...</div>
 </div>
 
-<!-- 알림 메시지 모달 -->
 <div id="msg-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden no-print">
   <div class="bg-white p-6 rounded-xl shadow-xl w-[360px] text-center">
     <p id="msg-modal-text" class="text-gray-800 font-medium mb-6 whitespace-pre-line leading-relaxed"></p>
@@ -59,7 +53,6 @@
   </div>
 </div>
 
-<!-- 비밀번호 변경 모달 -->
 <div id="pw-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-40 hidden">
   <div class="bg-white p-8 rounded-xl shadow-xl w-[400px]">
     <h2 class="text-xl font-bold mb-2 text-blue-900">비밀번호 변경</h2>
@@ -79,7 +72,6 @@
   </div>
 </div>
 
-<!-- 단일 로그인 화면 -->
 <div id="login-screen" class="min-h-screen flex items-center justify-center">
   <div class="bg-white p-10 rounded-xl shadow-xl w-[400px]">
     <h1 class="text-2xl font-extrabold text-center mb-2 text-blue-900">🚀 탐구활동 보고서</h1>
@@ -97,17 +89,13 @@
   </div>
 </div>
 
-<!-- 학생 보고서 작성 화면 -->
 <div id="student-screen" class="hidden min-h-screen pt-6 pb-12">
   <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden card relative pb-20">
-    
-    <!-- ★ 인쇄 전용 헤더 -->
     <div class="print-header">
       <div class="text-xl font-bold">놀이공원 가속도 비교 탐구 보고서</div>
       <div class="text-lg">학번: <span id="print_sid" class="font-bold"></span> &nbsp;|&nbsp; 이름: <span id="print_sname" class="font-bold"></span></div>
     </div>
 
-    <!-- 웹 화면용 헤더 -->
     <div class="flex flex-wrap justify-between items-center bg-blue-800 text-white p-6 no-print gap-3">
       <div>
         <h1 class="text-2xl font-extrabold">가속도 탐구활동 보고서</h1>
@@ -131,7 +119,6 @@
     </div>
 
     <div class="p-8">
-      <!-- 탭 1 -->
       <div id="tab1" class="tab-content active">
         <h2 class="text-xl font-bold text-blue-900 mb-6 border-l-4 border-blue-600 pl-3">1. 놀이기구 설계 및 과학적 개념 적용</h2>
         <div class="question-block">
@@ -147,7 +134,6 @@
         </div>
       </div>
 
-      <!-- 탭 2 -->
       <div id="tab2" class="tab-content">
         <h2 class="text-xl font-bold text-blue-900 mb-6 border-l-4 border-blue-600 pl-3">2. 디지털 도구 활용 및 가속도 데이터 수집</h2>
         <div class="question-block">
@@ -155,12 +141,11 @@
           <textarea id="q2_1_text" class="w-full border border-gray-300 rounded-md p-4 min-h-[150px] outline-none focus:border-blue-500" placeholder="내용을 입력하세요..."></textarea>
         </div>
         <div class="question-block">
-          <div class="question-title">(2) 센서의 측정값을 오류 없이 정밀하게 수집하고 체계적으로 정리하기 위해 팀원들이 디지털 도구를 어떻게 조작하고 활용했는지 작성하세요. (도움을 받은 부분이 있다면 함께 명시하세요.)</div>
+          <div class="question-title">(2) 센서의 측정값을 오류 없이 정밀하게 수집하고 체계적으로 정리하기 위해 팀원들이 디지털 도구를 어떻게 조작하고 활용했는지 작성하세요.</div>
           <textarea id="q2_2_text" class="w-full border border-gray-300 rounded-md p-4 min-h-[150px] outline-none focus:border-blue-500" placeholder="내용을 입력하세요..."></textarea>
         </div>
       </div>
 
-      <!-- 탭 3 -->
       <div id="tab3" class="tab-content">
         <h2 class="text-xl font-bold text-blue-900 mb-6 border-l-4 border-blue-600 pl-3">3. 구간별 그래프 분석 및 과학적 원리 해석</h2>
         <div class="question-block">
@@ -176,7 +161,6 @@
         </div>
       </div>
 
-      <!-- 탭 4 -->
       <div id="tab4" class="tab-content">
         <h2 class="text-xl font-bold text-blue-900 mb-6 border-l-4 border-blue-600 pl-3">4. 실험 결과 연계 및 오차 원인 분석</h2>
         <div class="question-block">
@@ -192,18 +176,15 @@
   </div>
 </div>
 
-<!-- 교사 대시보드 화면 -->
 <div id="teacher-screen" class="hidden min-h-screen bg-gray-200 p-8">
   <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-xl p-8">
     <div class="flex justify-between items-center mb-8 border-b pb-4">
       <h1 class="text-3xl font-extrabold text-blue-900">교사 대시보드 (제출 현황)</h1>
       <button onclick="logout()" class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-md font-bold">로그아웃</button>
     </div>
-    
     <div class="mb-6">
       <input type="text" id="search-input" onkeyup="filterTable()" placeholder="이름 또는 학번으로 학생 검색..." class="border border-gray-300 p-3 rounded-md w-1/3 outline-none focus:border-blue-500">
     </div>
-
     <div class="bg-white rounded-lg border overflow-hidden">
       <table class="w-full text-left border-collapse" id="studentTable">
         <thead>
@@ -220,15 +201,14 @@
   </div>
 </div>
 
-<!-- 우측 하단 세일고 로고 -->
 <div class="fixed bottom-5 right-6 flex items-center gap-2 z-40 no-print bg-white/90 px-4 py-2 rounded-full shadow-md backdrop-blur-sm border border-gray-200">
   <img src="세일고CI-01.png" alt="세일고 로고" class="w-6 h-6 object-contain" onerror="this.style.display='none'">
   <span class="font-bold text-sm" style="color: #003366;">세일고등학교</span>
 </div>
 
 <script>
-  // 외부 웹사이트나 로컬 환경에서 접속할 때 사용하는 웹 앱 배포 URL
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwP-bGFzhJ2t36XfSKSKu8i-036c9YBpG_gifWXPmMONZe7_rc8Lv0tQLbegF4Ja_ZX/exec";
+  // 배포 URL 유지
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHIwCPs1suGVwy9iCEmBht2rLgQhbPKat5jyF1JS5R51J0X3o5NhNHggnYqaTZbIau/exec";
   let currentUser = {};
 
   function compressImage(file, callback) {
@@ -241,28 +221,18 @@
   }
 
   function shrinkDataUrl(srcDataUrl, maxLength, callback) {
-    if (!srcDataUrl || !srcDataUrl.startsWith('data:image')) {
-      callback('');
-      return;
-    }
+    if (!srcDataUrl || !srcDataUrl.startsWith('data:image')) { callback(''); return; }
     const img = new Image();
     img.onload = function() {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       let maxDim = 600;
-      let width = img.width;
-      let height = img.height;
+      let width = img.width; let height = img.height;
 
-      if (width > height && width > maxDim) {
-        height *= maxDim / width;
-        width = maxDim;
-      } else if (height >= width && height > maxDim) {
-        width *= maxDim / height;
-        height = maxDim;
-      }
+      if (width > height && width > maxDim) { height *= maxDim / width; width = maxDim; } 
+      else if (height >= width && height > maxDim) { width *= maxDim / height; height = maxDim; }
 
-      let quality = 0.7;
-      let dataUrl = '';
+      let quality = 0.7; let dataUrl = '';
       while (true) {
         canvas.width = Math.max(100, Math.round(width));
         canvas.height = Math.max(100, Math.round(height));
@@ -271,12 +241,8 @@
         dataUrl = canvas.toDataURL('image/jpeg', quality);
 
         if (dataUrl.length <= maxLength || (width <= 120 && quality <= 0.2)) break;
-        if (quality > 0.3) {
-          quality -= 0.15;
-        } else {
-          width *= 0.8;
-          height *= 0.8;
-        }
+        if (quality > 0.3) quality -= 0.15;
+        else { width *= 0.8; height *= 0.8; }
       }
       callback(dataUrl.length <= 49000 ? dataUrl : '');
     };
@@ -374,9 +340,7 @@
       const res = await fetchGAS({ action: 'changePassword', studentId: currentUser.studentId, newPw: pw1 });
       showMsg(res.message);
       if (res.success) closePwModal();
-    } catch (e) { 
-      showMsg("비밀번호 변경 중 오류가 발생했습니다."); 
-    }
+    } catch (e) { showMsg("비밀번호 변경 중 오류가 발생했습니다."); }
     showLoading(false);
   }
 
@@ -419,10 +383,7 @@
           document.querySelectorAll('.student-only').forEach(el => el.classList.remove('hidden'));
           document.getElementById('printBtn').classList.add('hidden');
           document.getElementById('backBtn').classList.add('hidden');
-          document.querySelectorAll('textarea').forEach(el => {
-            el.readOnly = false;
-            el.disabled = false;
-          });
+          document.querySelectorAll('textarea').forEach(el => { el.readOnly = false; el.disabled = false; });
 
           document.getElementById('display_sid').innerText = currentUser.studentId;
           document.getElementById('display_sname').innerText = currentUser.name;
@@ -436,7 +397,7 @@
           if (pw === '1234') openPwModal(true);
           
           const reportData = await fetchGAS({ action: 'getStudentReport', studentId: currentUser.studentId });
-          populateForm(reportData, false);
+          populateForm(reportData);
         }
       } else {
         showMsg((res && res.message) || "로그인에 실패했습니다.");
@@ -450,24 +411,18 @@
   function clearForm() {
     const p1 = document.getElementById('q1_preview');
     const p3 = document.getElementById('q3_preview');
-    p1.classList.add('hidden');
-    p3.classList.add('hidden');
-    p1.removeAttribute('src');
-    p3.removeAttribute('src');
-
+    p1.classList.add('hidden'); p3.classList.add('hidden');
+    p1.removeAttribute('src'); p3.removeAttribute('src');
+    
     document.getElementById('q1_file').value = '';
     document.getElementById('q3_file').value = '';
-
-    document.getElementById('q1_text').value = '';
-    document.getElementById('q2_1_text').value = '';
-    document.getElementById('q2_2_text').value = '';
-    document.getElementById('q3_text').value = '';
-    document.getElementById('q4_1_text').value = '';
-    document.getElementById('q4_2_text').value = '';
+    
+    ['q1_text', 'q2_1_text', 'q2_2_text', 'q3_text', 'q4_1_text', 'q4_2_text'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
 
     const savedInfo = document.getElementById('last_saved_info');
-    savedInfo.innerText = '';
-    savedInfo.classList.add('hidden');
+    savedInfo.innerText = ''; savedInfo.classList.add('hidden');
   }
 
   function populateForm(data) {
@@ -476,14 +431,8 @@
       const p1 = document.getElementById('q1_preview');
       const p3 = document.getElementById('q3_preview');
 
-      if (data.q1Img) { 
-        p1.src = data.q1Img; 
-        p1.classList.remove('hidden');
-      }
-      if (data.q3Img) { 
-        p3.src = data.q3Img; 
-        p3.classList.remove('hidden');
-      }
+      if (data.q1Img) { p1.src = data.q1Img; p1.classList.remove('hidden'); }
+      if (data.q3Img) { p3.src = data.q3Img; p3.classList.remove('hidden'); }
 
       document.getElementById('q1_text').value = data.q1Text || '';
       document.getElementById('q2_1_text').value = data.q2_1_Text || '';
@@ -494,7 +443,7 @@
 
       if (data.updatedAt) {
         const savedInfo = document.getElementById('last_saved_info');
-        savedInfo.innerText = '최근 저장 일시: ' + data.updatedAt + ' (내용을 수정한 뒤 다시 제출하면 업데이트됩니다)';
+        savedInfo.innerText = '최근 저장 일시: ' + data.updatedAt + ' (수정 후 다시 제출 가능)';
         savedInfo.classList.remove('hidden');
       }
       setTimeout(triggerResize, 100);
@@ -507,16 +456,15 @@
     const p1 = document.getElementById('q1_preview');
     const p3 = document.getElementById('q3_preview');
 
-    // ★ 가장 확실한 방법: DOM에 등록된 실제 src 값을 추출하고 안전한 데이터 URL인지 2차 확인합니다.
-    let q1ImgVal = p1.src && p1.src.startsWith('data:image') ? p1.src : '';
-    let q3ImgVal = p3.src && p3.src.startsWith('data:image') ? p3.src : '';
+    // ★ 가장 확실한 방법: DOM에서 src 속성을 명시적으로 추출하고 확인
+    let q1Src = p1.getAttribute('src');
+    let q3Src = p3.getAttribute('src');
+    
+    let q1ImgVal = (q1Src && q1Src.startsWith('data:image')) ? q1Src : '';
+    let q3ImgVal = (q3Src && q3Src.startsWith('data:image')) ? q3Src : '';
 
-    if (q1ImgVal.length > 45000) {
-      q1ImgVal = await new Promise(r => shrinkDataUrl(q1ImgVal, 40000, r));
-    }
-    if (q3ImgVal.length > 45000) {
-      q3ImgVal = await new Promise(r => shrinkDataUrl(q3ImgVal, 40000, r));
-    }
+    if (q1ImgVal.length > 45000) { q1ImgVal = await new Promise(r => shrinkDataUrl(q1ImgVal, 40000, r)); }
+    if (q3ImgVal.length > 45000) { q3ImgVal = await new Promise(r => shrinkDataUrl(q3ImgVal, 40000, r)); }
 
     const data = {
       studentId: String(currentUser.studentId).trim(),
@@ -532,36 +480,31 @@
     };
     
     const saveBtn = document.getElementById('saveBtn');
-    saveBtn.innerText = "저장 중...";
-    saveBtn.disabled = true;
+    saveBtn.innerText = "저장 중..."; saveBtn.disabled = true;
     showLoading(true);
 
     try {
       let res = await fetchGAS({ action: 'saveStudentReport', data: data });
 
-      if (res && !res.success && res.message && (res.message.includes('50000') || res.message.includes('50,000') || res.message.includes('maximum'))) {
-        data.q1Img = '';
-        data.q3Img = '';
+      if (res && !res.success && res.message && (res.message.includes('50000') || res.message.includes('maximum'))) {
+        data.q1Img = ''; data.q3Img = '';
         res = await fetchGAS({ action: 'saveStudentReport', data: data });
       }
 
       if (res && res.success) {
         if (res.updatedAt) {
           const savedInfo = document.getElementById('last_saved_info');
-          savedInfo.innerText = '최근 저장 일시: ' + res.updatedAt + ' (내용을 수정한 뒤 다시 제출하면 업데이트됩니다)';
+          savedInfo.innerText = '최근 저장 일시: ' + res.updatedAt + ' (수정 후 다시 제출 가능)';
           savedInfo.classList.remove('hidden');
         }
         showMsg(res.message);
       } else {
         showMsg((res && res.message) || "저장에 실패했습니다.");
       }
-    } catch (e) { 
-      showMsg("저장에 실패했습니다. 네트워크 상태를 확인해 주세요."); 
-    }
+    } catch (e) { showMsg("저장에 실패했습니다. 네트워크 상태를 확인해 주세요."); }
     
     showLoading(false);
-    saveBtn.innerText = "제출(저장)하기";
-    saveBtn.disabled = false;
+    saveBtn.innerText = "제출(저장)하기"; saveBtn.disabled = false;
   }
 
   async function showTeacherDashboard() {
@@ -586,9 +529,7 @@
           </tr>
         `;
       });
-    } catch (e) {
-      showMsg("데이터를 불러오지 못했습니다.");
-    }
+    } catch (e) { showMsg("데이터를 불러오지 못했습니다."); }
     showLoading(false);
   }
 
@@ -625,7 +566,7 @@
     showLoading(true);
     try {
       const data = await fetchGAS({ action: 'getStudentReport', studentId: sid });
-      populateForm(data, true);
+      populateForm(data);
     } catch (e) {}
     showLoading(false);
   }
